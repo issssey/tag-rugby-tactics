@@ -14,6 +14,7 @@ class Animator {
     this._animFrameId = null;
     this._stepTimeoutId = null;
     this.onStateChange = null; // コールバック
+    this.isAnimating = false;  // 手動ステップ実行中フラグ
   }
 
   loadTactics(tacticsData) {
@@ -94,6 +95,7 @@ class Animator {
       totalPhases,
       totalSteps,
       isPlaying: this.isPlaying,
+      isAnimating: this.isAnimating,
       phaseDescription: phase ? phase.description : '',
     };
   }
@@ -122,40 +124,97 @@ class Animator {
   }
 
   nextStep() {
-    if (!this.tacticsData) return;
-    this.pause();
-    this._advanceStep();
+    if (!this.tacticsData || this.isPlaying || this.isAnimating) return;
+    const step = this._getCurrentStep();
+    if (!step) return;
+
+    const phase = this._getCurrentPhase();
+    const isLastStep = this.currentStepIndex >= phase.steps.length - 1;
+    const isLastPhase = this.currentPhaseIndex >= this.tacticsData.phases.length - 1;
+    if (isLastStep && isLastPhase) return;
+
+    this.isAnimating = true;
+    this._notifyStateChange();
+    this._executeStep(step, () => {
+      this.isAnimating = false;
+      this._advanceStep();
+    });
   }
 
   prevStep() {
-    if (!this.tacticsData) return;
-    this.pause();
+    if (!this.tacticsData || this.isPlaying) return;
+    if (this.currentPhaseIndex === 0 && this.currentStepIndex === 0) return;
     this._rewindStep();
+    this._replayToCurrentStep();
   }
 
   nextPhase() {
-    if (!this.tacticsData) return;
-    this.pause();
+    if (!this.tacticsData || this.isPlaying) return;
     const totalPhases = this.tacticsData.phases.length;
     if (this.currentPhaseIndex < totalPhases - 1) {
       this.currentPhaseIndex++;
       this.currentStepIndex = 0;
+      this._replayToCurrentStep();
       this._notifyStateChange();
     }
   }
 
   prevPhase() {
-    if (!this.tacticsData) return;
-    this.pause();
-    if (this.currentPhaseIndex > 0) {
+    if (!this.tacticsData || this.isPlaying) return;
+    if (this.currentStepIndex > 0) {
+      // フェーズの先頭へ
+      this.currentStepIndex = 0;
+    } else if (this.currentPhaseIndex > 0) {
       this.currentPhaseIndex--;
       this.currentStepIndex = 0;
-      this._notifyStateChange();
     }
+    this._replayToCurrentStep();
+    this._notifyStateChange();
   }
 
   setSpeed(speed) {
     this.speed = speed;
+  }
+
+  // 現在のインデックスまでの状態を瞬時に再現する（前ステップ/フェーズ移動用）
+  _replayToCurrentStep() {
+    this._clearSVG();
+    this._initPlayers();
+    this.ball = new Ball(this.grid);
+    this.ball.render(this.svgElement);
+
+    // 初期ボール保持者を設定
+    const firstStep = this.tacticsData.phases[0].steps[0];
+    const initialHolder = this.players[firstStep.ballHolder];
+    if (initialHolder) this.ball.attachToPlayer(initialHolder);
+
+    // 現在位置より前のステップを瞬時に適用
+    for (let pi = 0; pi <= this.currentPhaseIndex; pi++) {
+      const phase = this.tacticsData.phases[pi];
+      const lastStep = (pi === this.currentPhaseIndex) ? this.currentStepIndex : phase.steps.length;
+      for (let si = 0; si < lastStep; si++) {
+        this._executeStepInstant(phase.steps[si]);
+      }
+    }
+  }
+
+  // アニメーションなしでステップの最終状態を即時適用する
+  _executeStepInstant(step) {
+    const playerMoves = step.players || [];
+    playerMoves.forEach(pm => {
+      const player = this.players[pm.id];
+      if (!player) return;
+      player.setPosition(pm.to.x, pm.to.y);
+    });
+
+    // ボール保持者の更新
+    if (step.passAnimation) {
+      const toPlayer = this.players[step.passAnimation.to];
+      if (toPlayer) this.ball.attachToPlayer(toPlayer);
+    } else if (step.ballHolder) {
+      const holder = this.players[step.ballHolder];
+      if (holder) this.ball.attachToPlayer(holder);
+    }
   }
 
   _advanceStep() {
@@ -239,36 +298,48 @@ class Animator {
       }
     });
 
-    // 選手の移動を開始
-    const moveDuration = playerMoves.length > 0 ? (playerMoves[0].duration || 800) / this.speed : 800 / this.speed;
-    playerMoves.forEach(pm => {
-      const player = this.players[pm.id];
-      if (!player) return;
-      const duration = (pm.duration || 800) / this.speed;
-      this._animatePlayerMove(player, pm.from, pm.to, duration, null);
-    });
-
-    // パスアニメーション
     if (passAnim) {
       const fromPlayer = this.players[passAnim.from];
       const toPlayer = this.players[passAnim.to];
       const passDuration = 800 / this.speed;
 
       if (fromPlayer && toPlayer) {
+        // 1. まずボールをレシーバーの現在地へ飛ばす
         this._showPassLine(fromPlayer, toPlayer);
         this.ball.animatePass(fromPlayer, toPlayer, passDuration, () => {
-          // ハイライト解除
+          // 2. ボール到達後にレシーバーが走り出す
+          let maxMoveDuration = 0;
           playerMoves.forEach(pm => {
-            if (pm.isHighlighted && this.players[pm.id]) {
-              this.players[pm.id].setHighlight(false);
-            }
+            const player = this.players[pm.id];
+            if (!player) return;
+            const duration = (pm.duration || 800) / this.speed;
+            if (duration > maxMoveDuration) maxMoveDuration = duration;
+            const isBallHolder = pm.id === passAnim.to;
+            this._animatePlayerMove(player, pm.from, pm.to, duration, isBallHolder ? this.ball : null);
           });
-          onComplete();
+
+          setTimeout(() => {
+            playerMoves.forEach(pm => {
+              if (pm.isHighlighted && this.players[pm.id]) {
+                this.players[pm.id].setHighlight(false);
+              }
+            });
+            onComplete();
+          }, maxMoveDuration);
         });
       } else {
         onComplete();
       }
     } else {
+      // passAnimがない場合は選手のみ移動
+      let maxDuration = 0;
+      playerMoves.forEach(pm => {
+        const player = this.players[pm.id];
+        if (!player) return;
+        const duration = (pm.duration || 800) / this.speed;
+        if (duration > maxDuration) maxDuration = duration;
+        this._animatePlayerMove(player, pm.from, pm.to, duration, null);
+      });
       setTimeout(() => {
         playerMoves.forEach(pm => {
           if (pm.isHighlighted && this.players[pm.id]) {
@@ -276,7 +347,7 @@ class Animator {
           }
         });
         onComplete();
-      }, moveDuration);
+      }, maxDuration);
     }
   }
 

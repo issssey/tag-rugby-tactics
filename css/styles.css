@@ -136,6 +136,13 @@ button:hover {
   background: #1a5f9a;
 }
 
+button:disabled {
+  background: #2a2a3a;
+  border-color: #444;
+  color: #555;
+  cursor: not-allowed;
+}
+
 button#btn-play {
   background: #e94560;
   border-color: #c73652;

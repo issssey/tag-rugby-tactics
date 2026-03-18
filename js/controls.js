@@ -59,5 +59,12 @@ class Controls {
     if (playBtn) {
       playBtn.textContent = state.isPlaying ? '⏸ 一時停止' : '▶ 再生';
     }
+
+    // アニメーション中はナビゲーションボタンを非活性にする
+    const disabled = state.isAnimating || state.isPlaying;
+    ['btn-prev-step', 'btn-next-step', 'btn-prev-phase', 'btn-next-phase'].forEach(id => {
+      const btn = document.getElementById(id);
+      if (btn) btn.disabled = disabled;
+    });
   }
 }
