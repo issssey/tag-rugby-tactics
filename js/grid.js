@@ -61,6 +61,34 @@ class Grid {
     bg.setAttribute('rx', '4');
     group.insertBefore(bg, group.firstChild);
 
+    // 列番号（上部）
+    for (let i = 0; i < this.size; i++) {
+      const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      text.setAttribute('x', i * this.cellSize + this.cellSize / 2);
+      text.setAttribute('y', 13);
+      text.setAttribute('text-anchor', 'middle');
+      text.setAttribute('dominant-baseline', 'middle');
+      text.setAttribute('fill', 'rgba(255,255,255,0.5)');
+      text.setAttribute('font-size', '11');
+      text.setAttribute('font-family', 'Arial, sans-serif');
+      text.textContent = i;
+      group.appendChild(text);
+    }
+
+    // 行番号（左側）
+    for (let i = 0; i < this.size; i++) {
+      const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      text.setAttribute('x', 10);
+      text.setAttribute('y', i * this.cellSize + this.cellSize / 2);
+      text.setAttribute('text-anchor', 'middle');
+      text.setAttribute('dominant-baseline', 'middle');
+      text.setAttribute('fill', 'rgba(255,255,255,0.5)');
+      text.setAttribute('font-size', '11');
+      text.setAttribute('font-family', 'Arial, sans-serif');
+      text.textContent = i;
+      group.appendChild(text);
+    }
+
     svgElement.insertBefore(group, svgElement.firstChild);
   }
 }

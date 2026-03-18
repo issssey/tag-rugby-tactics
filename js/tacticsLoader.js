@@ -1,6 +1,6 @@
 class TacticsLoader {
   constructor() {
-    this.index = null; // { basic: [...], advanced: [...], defense: [...] }
+    this.index = null;
   }
 
   async loadIndex() {
@@ -9,17 +9,8 @@ class TacticsLoader {
     return data;
   }
 
-  getCategoriesList() {
-    if (!this.index) return [];
-    return Object.keys(this.index);
-  }
-
-  getTacticsByCategory(category) {
-    if (!this.index) return [];
-    if (category === 'all') {
-      return Object.values(this.index).flat();
-    }
-    return this.index[category] || [];
+  getTacticsList() {
+    return this.index || [];
   }
 
   async loadTactics(path) {
