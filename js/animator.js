@@ -15,6 +15,9 @@ class Animator {
     this._stepTimeoutId = null;
     this.onStateChange = null; // コールバック
     this.isAnimating = false;  // 手動ステップ実行中フラグ
+    this.showTrail = false;    // 軌跡表示フラグ
+    this.tagCount = 0;
+    this.totalTags = 0;
   }
 
   loadTactics(tacticsData) {
@@ -22,6 +25,9 @@ class Animator {
     this.currentPhaseIndex = 0;
     this.currentStepIndex = 0;
     this.isPlaying = false;
+    this.isAnimating = false;
+    this.tagCount = 0;
+    this.totalTags = tacticsData.phases.flatMap(p => p.steps).filter(s => s.type === 'tag').length;
     this._clearSVG();
     this._initPlayers();
     this._initBall();
@@ -29,8 +35,7 @@ class Animator {
   }
 
   _clearSVG() {
-    // グリッド以外の要素を削除
-    const toRemove = this.svgElement.querySelectorAll('.player-group, .ball, .pass-line');
+    const toRemove = this.svgElement.querySelectorAll('.player-group, .ball, .pass-line, .trail-layer');
     toRemove.forEach(el => el.remove());
     this.players = {};
     this.ball = null;
@@ -87,6 +92,7 @@ class Animator {
 
   getState() {
     const phase = this._getCurrentPhase();
+    const step = this._getCurrentStep();
     const totalPhases = this.tacticsData ? this.tacticsData.phases.length : 0;
     const totalSteps = phase ? phase.steps.length : 0;
     return {
@@ -97,6 +103,9 @@ class Animator {
       isPlaying: this.isPlaying,
       isAnimating: this.isAnimating,
       phaseDescription: phase ? phase.description : '',
+      tagCount: this.tagCount,
+      totalTags: this.totalTags,
+      currentStepType: step ? step.type : null,
     };
   }
 
@@ -117,10 +126,24 @@ class Animator {
     this.pause();
     this.currentPhaseIndex = 0;
     this.currentStepIndex = 0;
+    this.isAnimating = false;
+    this.tagCount = 0;
     this._clearSVG();
     this._initPlayers();
     this._initBall();
     this._notifyStateChange();
+  }
+
+  toggleTrail(enabled) {
+    this.showTrail = enabled;
+    if (!enabled) {
+      const layer = this.svgElement.querySelector('.trail-layer');
+      if (layer) layer.innerHTML = '';
+    }
+  }
+
+  clearAllHighlights() {
+    Object.values(this.players).forEach(p => p.setHighlight(false));
   }
 
   nextStep() {
@@ -393,6 +416,8 @@ class Animator {
 
     setTimeout(() => {
       if (ballHolder) ballHolder.setTagged();
+      this.tagCount++;
+      this._notifyStateChange();
       onComplete();
     }, maxDuration);
   }
@@ -400,6 +425,7 @@ class Animator {
   _animatePlayerMove(player, from, to, duration, ball) {
     const startPixel = this.grid.gridToPixel(from.x, from.y);
     const endPixel = this.grid.gridToPixel(to.x, to.y);
+    if (this.showTrail) this._drawTrail(startPixel, endPixel, player.color);
     const startTime = performance.now();
 
     const animate = (now) => {
@@ -465,6 +491,26 @@ class Animator {
       line.remove();
       marker.remove();
     }, 600 / this.speed);
+  }
+
+  _drawTrail(startPixel, endPixel, color) {
+    let layer = this.svgElement.querySelector('.trail-layer');
+    if (!layer) {
+      layer = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+      layer.setAttribute('class', 'trail-layer');
+      const firstPlayer = this.svgElement.querySelector('.player-group');
+      this.svgElement.insertBefore(layer, firstPlayer);
+    }
+    const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+    line.setAttribute('x1', startPixel.x);
+    line.setAttribute('y1', startPixel.y);
+    line.setAttribute('x2', endPixel.x);
+    line.setAttribute('y2', endPixel.y);
+    line.setAttribute('stroke', color);
+    line.setAttribute('stroke-width', '2');
+    line.setAttribute('stroke-dasharray', '4,4');
+    line.setAttribute('opacity', '0.45');
+    layer.appendChild(line);
   }
 
   _getOrCreateDefs() {

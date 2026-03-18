@@ -196,6 +196,10 @@ select {
 }
 
 svg#field {
+  width: 100%;
+  max-width: 600px;
+  height: auto;
+  aspect-ratio: 1;
   border-radius: 8px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.5);
   display: block;
@@ -208,8 +212,9 @@ svg#field {
   border-radius: 8px;
   padding: 10px 16px;
   display: flex;
-  gap: 20px;
+  gap: 12px 20px;
   flex-wrap: wrap;
+  align-items: center;
   font-size: 0.82rem;
   color: #aaa;
 }
@@ -226,4 +231,72 @@ svg#field {
   border-radius: 50%;
   border: 2px solid #fff;
   flex-shrink: 0;
+}
+
+.legend-separator {
+  width: 1px;
+  height: 20px;
+  background: #0f3460;
+  flex-shrink: 0;
+}
+
+.toggle-label {
+  cursor: pointer;
+  user-select: none;
+}
+
+.toggle-label input[type="checkbox"] {
+  accent-color: #7ec8e3;
+  cursor: pointer;
+}
+
+.btn-small {
+  padding: 4px 10px;
+  font-size: 0.78rem;
+  background: #2a2a4a;
+  border-color: #555;
+}
+
+.btn-small:hover {
+  background: #3a3a6a;
+}
+
+/* ステップ種別バッジ */
+.step-type-badge {
+  font-size: 0.75rem;
+  font-weight: bold;
+  padding: 2px 8px;
+  border-radius: 10px;
+  letter-spacing: 0.03em;
+}
+
+.type-pass     { background: #1a4a8a; color: #7ec8e3; }
+.type-run      { background: #1a5a2a; color: #7adb8a; }
+.type-tag      { background: #5a1a1a; color: #ff8888; }
+.type-rollball { background: #4a3a10; color: #f0c060; }
+.type-none     { display: none; }
+
+/* レスポンシブ */
+@media (max-width: 640px) {
+  body {
+    padding: 8px;
+  }
+
+  h1 {
+    font-size: 1.1rem;
+  }
+
+  button {
+    padding: 7px 10px;
+    font-size: 0.8rem;
+  }
+
+  .controls-row {
+    gap: 6px;
+  }
+
+  .status-bar {
+    gap: 12px;
+    font-size: 0.8rem;
+  }
 }

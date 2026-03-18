@@ -61,16 +61,18 @@
       <div class="status-bar">
         <span id="status-phase">フェーズ: — / —</span>
         <span id="status-step">ステップ: — / —</span>
+        <span id="status-tag">タグ: 0 / 0</span>
+        <span id="status-step-type" class="step-type-badge type-none"></span>
       </div>
       <div class="status-description" id="status-description"></div>
     </div>
 
     <!-- フィールド -->
     <div class="field-container">
-      <svg id="field" width="600" height="600" viewBox="0 0 600 600"></svg>
+      <svg id="field" viewBox="0 0 600 600"></svg>
     </div>
 
-    <!-- 凡例 -->
+    <!-- 凡例 + 表示オプション -->
     <div class="legend">
       <div class="legend-item">
         <div class="legend-dot" style="background:#378ADD;"></div>
@@ -88,6 +90,12 @@
         <div class="legend-dot" style="background:transparent; border-color:#FFD700;"></div>
         <span>ハイライト</span>
       </div>
+      <div class="legend-separator"></div>
+      <label class="legend-item toggle-label">
+        <input type="checkbox" id="cb-trail" />
+        <span>軌跡表示</span>
+      </label>
+      <button id="btn-clear-highlight" class="btn-small">ハイライト全解除</button>
     </div>
 
   </div>
