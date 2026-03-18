@@ -67,6 +67,12 @@ class Player {
     this.group.appendChild(text);
 
     this._textEl = text;
+
+    // pointer-events="all" でグループ全体をクリック可能に
+    this.group.setAttribute('pointer-events', 'all');
+    this.group.setAttribute('style', 'cursor: pointer');
+    this.group.addEventListener('click', () => this.setManualHighlight(!this.isManualHighlighted));
+
     svgElement.appendChild(this.group);
   }
 
