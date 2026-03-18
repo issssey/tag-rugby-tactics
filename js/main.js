@@ -49,16 +49,10 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
       const data = await loader.loadTactics(path);
       animator.loadTactics(data);
-      updateTacticsInfo(data);
+      document.getElementById('tactics-description').textContent = data.description || '';
     } catch (e) {
       showError('戦術の読み込みに失敗しました: ' + e.message);
     }
-  }
-
-  function updateTacticsInfo(data) {
-    document.getElementById('tactics-name').textContent = data.name;
-    document.getElementById('tactics-description').textContent = data.description || '';
-    document.getElementById('tactics-author').textContent = data.author || '—';
   }
 
   function showError(msg) {

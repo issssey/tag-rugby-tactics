@@ -20,14 +20,7 @@
           </select>
         </div>
         <div id="load-error" class="load-error" style="display:none;"></div>
-        <div class="divider"></div>
-        <div class="tactics-info">
-          <div id="tactics-name" class="tactics-name">戦術を選択してください</div>
-          <div id="tactics-description" class="tactics-description"></div>
-          <div class="tactics-meta">
-<span>作成者: <span id="tactics-author"></span></span>
-          </div>
-        </div>
+        <div id="tactics-description" class="tactics-description"></div>
       </div>
 
       <!-- 再生 -->
@@ -51,47 +44,23 @@
         </div>
       </div>
 
-      <!-- 状態 -->
-      <div class="panel">
-        <div class="panel-label">状態</div>
-        <div class="status-bar">
-          <span id="status-phase">フェーズ: — / —</span>
-          <span id="status-step">ステップ: — / —</span>
-          <span id="status-tag">タグ: 0 / 0</span>
-          <span id="status-step-type" class="step-type-badge type-none"></span>
-        </div>
-        <div id="status-description" class="status-description"></div>
-      </div>
 
-      <!-- 表示設定 -->
-      <div class="panel">
-        <div class="panel-label">表示設定</div>
-        <div class="legend-row">
-          <div class="legend-item">
-            <div class="legend-dot" style="background:#378ADD; border-color:#378ADD;"></div>
-            <span>攻撃側</span>
-          </div>
-          <div class="legend-item">
-            <div class="legend-dot" style="background:#D85A30; border-color:#D85A30;"></div>
-            <span>ディフェンス</span>
-          </div>
-          <div class="legend-item">
-            <div class="legend-dot" style="background:transparent; border-color:#FFD700;"></div>
-            <span>ハイライト</span>
-          </div>
-        </div>
-        <div class="divider"></div>
-        <label class="toggle-label">
-          <input type="checkbox" id="cb-trail" />
-          <span>軌跡表示</span>
-        </label>
-      </div>
 
     </div><!-- /sidebar -->
 
     <!-- 右: 作戦ボード -->
     <div class="board-area">
-<svg id="field" viewBox="0 0 660 660"></svg>
+      <div class="board-hud">
+        <span id="status-tag" class="hud-tag">タグ: 0 / 0</span>
+        <span id="status-step-type" class="step-type-badge type-none"></span>
+      </div>
+      <div class="board-wrapper">
+        <svg id="field" viewBox="0 0 660 660"></svg>
+        <div class="board-legend">
+          <div class="legend-item"><div class="legend-dot" style="background:#378ADD;"></div><span>攻撃</span></div>
+          <div class="legend-item"><div class="legend-dot" style="background:#D85A30;"></div><span>守備</span></div>
+        </div>
+      </div>
     </div>
 
   </div><!-- /app-container -->

@@ -21,7 +21,6 @@ class Controls {
 
     this._on('select-speed',   'change', (e) => this.animator.setSpeed(parseFloat(e.target.value)));
     this._on('select-speed-m', 'change', (e) => this.animator.setSpeed(parseFloat(e.target.value)));
-    this._on('cb-trail',     'change', (e) => this.animator.toggleTrail(e.target.checked));
   }
 
   // null セーフなイベント登録ヘルパー
@@ -44,10 +43,7 @@ class Controls {
     this._setText('btn-play',   playLabel);
     this._setText('btn-play-m', playLabel);
 
-    this._setText('status-phase', `フェーズ: ${state.phaseIndex + 1} / ${state.totalPhases}`);
-    this._setText('status-step',  `ステップ: ${state.stepIndex + 1} / ${state.totalSteps}`);
-    this._setText('status-tag',   `タグ: ${state.tagCount} / ${state.totalTags}`);
-    this._setText('status-description', state.phaseDescription || '');
+    this._setText('status-tag', `タグ: ${state.tagCount} / ${state.totalTags}`);
 
     const typeEl = document.getElementById('status-step-type');
     if (typeEl) {

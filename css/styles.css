@@ -373,7 +373,29 @@ h1 {
 .board-area {
   display: flex;
   flex-direction: column;
+  gap: 0;
+  position: relative;
+}
+
+.board-hud {
+  display: flex;
   gap: 8px;
+  align-items: center;
+  padding: 6px 10px;
+  background: rgba(0,0,0,0.04);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+
+.hud-tag {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #555555;
+}
+
+.board-wrapper {
+  position: relative;
+  display: inline-flex;
+  width: 100%;
 }
 
 svg#field {
@@ -381,6 +403,33 @@ svg#field {
   width: 100%;
   height: auto;
   aspect-ratio: 1;
+}
+
+.board-legend {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: rgba(0,0,0,0.25);
+  border-radius: 4px;
+  padding: 5px 8px;
+}
+
+.board-legend .legend-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.68rem;
+  color: rgba(255,255,255,0.85);
+}
+
+.board-legend .legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
 }
 
 /* ============================
