@@ -5,77 +5,65 @@ class Controls {
   }
 
   init() {
-    document.getElementById('btn-play').addEventListener('click', () => {
-      if (this.animator.isPlaying) {
-        this.animator.pause();
-      } else {
-        this.animator.play();
-      }
-    });
+    this._on('btn-play',       'click', () => this._togglePlay());
+    this._on('btn-reset',      'click', () => this.animator.reset());
+    this._on('btn-prev-step',  'click', () => this.animator.prevStep());
+    this._on('btn-next-step',  'click', () => this.animator.nextStep());
+    this._on('btn-prev-phase', 'click', () => this.animator.prevPhase());
+    this._on('btn-next-phase', 'click', () => this.animator.nextPhase());
 
-    document.getElementById('btn-reset').addEventListener('click', () => {
-      this.animator.reset();
-    });
+    this._on('btn-play-m',       'click', () => this._togglePlay());
+    this._on('btn-prev-step-m',  'click', () => this.animator.prevStep());
+    this._on('btn-next-step-m',  'click', () => this.animator.nextStep());
+    this._on('btn-prev-phase-m', 'click', () => this.animator.prevPhase());
+    this._on('btn-next-phase-m', 'click', () => this.animator.nextPhase());
 
-    document.getElementById('btn-prev-step').addEventListener('click', () => {
-      this.animator.prevStep();
-    });
+    this._on('select-speed', 'change', (e) => this.animator.setSpeed(parseFloat(e.target.value)));
+    this._on('cb-trail',     'change', (e) => this.animator.toggleTrail(e.target.checked));
+  }
 
-    document.getElementById('btn-next-step').addEventListener('click', () => {
-      this.animator.nextStep();
-    });
+  // null セーフなイベント登録ヘルパー
+  _on(id, event, handler) {
+    const el = document.getElementById(id);
+    if (el) el.addEventListener(event, handler);
+  }
 
-    document.getElementById('btn-prev-phase').addEventListener('click', () => {
-      this.animator.prevPhase();
-    });
-
-    document.getElementById('btn-next-phase').addEventListener('click', () => {
-      this.animator.nextPhase();
-    });
-
-    document.getElementById('select-speed').addEventListener('change', (e) => {
-      this.animator.setSpeed(parseFloat(e.target.value));
-    });
-
-    document.getElementById('cb-trail').addEventListener('change', (e) => {
-      this.animator.toggleTrail(e.target.checked);
-    });
-
-    document.getElementById('btn-clear-highlight').addEventListener('click', () => {
-      this.animator.clearAllHighlights();
-    });
+  _togglePlay() {
+    if (this.animator.isPlaying) {
+      this.animator.pause();
+    } else {
+      this.animator.play();
+    }
   }
 
   updateDisplay(state) {
-    // 再生ボタン
-    const playBtn = document.getElementById('btn-play');
-    if (playBtn) {
-      playBtn.textContent = state.isPlaying ? '⏸ 一時停止' : '▶ 再生';
-    }
+    const playLabel = state.isPlaying ? '⏸ 一時停止' : '▶ 再生';
 
-    // ステータス表示
-    const phaseEl = document.getElementById('status-phase');
-    const stepEl = document.getElementById('status-step');
-    const tagEl = document.getElementById('status-tag');
-    const descEl = document.getElementById('status-description');
+    this._setText('btn-play',   playLabel);
+    this._setText('btn-play-m', playLabel);
+
+    this._setText('status-phase', `フェーズ: ${state.phaseIndex + 1} / ${state.totalPhases}`);
+    this._setText('status-step',  `ステップ: ${state.stepIndex + 1} / ${state.totalSteps}`);
+    this._setText('status-tag',   `タグ: ${state.tagCount} / ${state.totalTags}`);
+    this._setText('status-description', state.phaseDescription || '');
+
     const typeEl = document.getElementById('status-step-type');
-
-    if (phaseEl) phaseEl.textContent = `フェーズ: ${state.phaseIndex + 1} / ${state.totalPhases}`;
-    if (stepEl)  stepEl.textContent  = `ステップ: ${state.stepIndex + 1} / ${state.totalSteps}`;
-    if (tagEl)   tagEl.textContent   = `タグ: ${state.tagCount} / ${state.totalTags}`;
-    if (descEl)  descEl.textContent  = state.phaseDescription || '';
-
     if (typeEl) {
       const labels = { pass: 'パス', run: 'ラン', tag: 'タグ', rollball: 'ロールボール' };
       typeEl.textContent = labels[state.currentStepType] || '';
       typeEl.className = `step-type-badge type-${state.currentStepType || 'none'}`;
     }
 
-    // ナビゲーションボタンの非活性制御
     const disabled = state.isAnimating || state.isPlaying;
-    ['btn-prev-step', 'btn-next-step', 'btn-prev-phase', 'btn-next-phase'].forEach(id => {
+    ['btn-prev-step', 'btn-next-step', 'btn-prev-phase', 'btn-next-phase',
+     'btn-prev-step-m', 'btn-next-step-m', 'btn-prev-phase-m', 'btn-next-phase-m'].forEach(id => {
       const btn = document.getElementById(id);
       if (btn) btn.disabled = disabled;
     });
+  }
+
+  _setText(id, text) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = text;
   }
 }
