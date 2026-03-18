@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', async () => {
   const svgEl = document.getElementById('field');
-  const grid = new Grid(10, 60);
+  const grid = new Grid(11, 60);
   grid.render(svgEl);
 
   const animator = new Animator(grid, svgEl);
