@@ -98,11 +98,22 @@
 
   <!-- モバイル固定再生バー -->
   <div class="mobile-playbar">
-    <button id="btn-prev-phase-m" title="前のフェーズ">◀◀</button>
-    <button id="btn-prev-step-m" title="前のステップ">◀</button>
-    <button id="btn-play-m">▶ 再生</button>
-    <button id="btn-next-step-m" title="次のステップ">▶</button>
-    <button id="btn-next-phase-m" title="次のフェーズ">▶▶</button>
+    <div class="mobile-playbar-main">
+      <button id="btn-prev-phase-m" title="前のフェーズ">◀◀</button>
+      <button id="btn-prev-step-m" title="前のステップ">◀</button>
+      <button id="btn-play-m">▶ 再生</button>
+      <button id="btn-next-step-m" title="次のステップ">▶</button>
+      <button id="btn-next-phase-m" title="次のフェーズ">▶▶</button>
+    </div>
+    <div class="mobile-playbar-sub">
+      <button id="btn-reset-m">リセット</button>
+      <label class="speed-label" for="select-speed-m">速度</label>
+      <select id="select-speed-m">
+        <option value="0.5">0.5x</option>
+        <option value="1" selected>1x</option>
+        <option value="2">2x</option>
+      </select>
+    </div>
   </div>
 
   <script src="js/grid.js"></script>

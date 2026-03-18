@@ -13,12 +13,14 @@ class Controls {
     this._on('btn-next-phase', 'click', () => this.animator.nextPhase());
 
     this._on('btn-play-m',       'click', () => this._togglePlay());
+    this._on('btn-reset-m',      'click', () => this.animator.reset());
     this._on('btn-prev-step-m',  'click', () => this.animator.prevStep());
     this._on('btn-next-step-m',  'click', () => this.animator.nextStep());
     this._on('btn-prev-phase-m', 'click', () => this.animator.prevPhase());
     this._on('btn-next-phase-m', 'click', () => this.animator.nextPhase());
 
-    this._on('select-speed', 'change', (e) => this.animator.setSpeed(parseFloat(e.target.value)));
+    this._on('select-speed',   'change', (e) => this.animator.setSpeed(parseFloat(e.target.value)));
+    this._on('select-speed-m', 'change', (e) => this.animator.setSpeed(parseFloat(e.target.value)));
     this._on('cb-trail',     'change', (e) => this.animator.toggleTrail(e.target.checked));
   }
 

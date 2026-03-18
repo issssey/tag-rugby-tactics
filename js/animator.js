@@ -151,16 +151,17 @@ class Animator {
     const step = this._getCurrentStep();
     if (!step) return;
 
-    const phase = this._getCurrentPhase();
-    const isLastStep = this.currentStepIndex >= phase.steps.length - 1;
-    const isLastPhase = this.currentPhaseIndex >= this.tacticsData.phases.length - 1;
-    if (isLastStep && isLastPhase) return;
-
     this.isAnimating = true;
     this._notifyStateChange();
     this._executeStep(step, () => {
       this.isAnimating = false;
-      this._advanceStep();
+      const phase = this._getCurrentPhase();
+      const isLastStep = this.currentStepIndex >= phase.steps.length - 1;
+      const isLastPhase = this.currentPhaseIndex >= this.tacticsData.phases.length - 1;
+      if (!(isLastStep && isLastPhase)) {
+        this._advanceStep();
+      }
+      this._notifyStateChange();
     });
   }
 

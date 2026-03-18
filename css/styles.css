@@ -89,12 +89,12 @@ body {
 
   /* 再生パネルはモバイルでは固定バーに任せて非表示 */
   .panel-playback {
-    display: none;
+    display: none !important;
   }
 
   /* ページ下部に固定バーの高さ分の余白 */
   body {
-    padding-bottom: 72px;
+    padding-bottom: 110px;
   }
 }
 
@@ -109,6 +109,7 @@ body {
 @media (max-width: 819px) {
   .mobile-playbar {
     display: flex;
+    flex-direction: column;
     position: fixed;
     bottom: 0;
     left: 0;
@@ -116,19 +117,30 @@ body {
     background: #ffffff;
     border-top: 1px solid #d8d8d8;
     box-shadow: 0 -2px 10px rgba(0,0,0,0.08);
-    padding: 10px 16px;
-    gap: 8px;
+    padding: 8px 12px;
+    gap: 6px;
     z-index: 100;
+  }
+
+  .mobile-playbar-main {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+
+  .mobile-playbar-sub {
+    display: flex;
+    gap: 6px;
     align-items: center;
   }
 
   .mobile-playbar button {
     flex: 1;
-    padding: 10px 6px;
-    font-size: 0.85rem;
+    padding: 8px 6px;
+    font-size: 0.82rem;
   }
 
-  .mobile-playbar button#btn-play-m {
+  .mobile-playbar-main button#btn-play-m {
     flex: 2;
     background: #0066ff;
     color: #ffffff;
@@ -136,8 +148,17 @@ body {
     font-weight: 600;
   }
 
-  .mobile-playbar button#btn-play-m:hover {
+  .mobile-playbar-main button#btn-play-m:hover {
     background: #0052cc;
+  }
+
+  .mobile-playbar-sub button#btn-reset-m {
+    flex: none;
+    padding: 6px 14px;
+  }
+
+  .mobile-playbar-sub select {
+    flex: 1;
   }
 
   .mobile-playbar button:disabled {
