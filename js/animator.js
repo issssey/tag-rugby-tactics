@@ -50,7 +50,7 @@ class Animator {
       if (player.group) {
         player.group.classList.add('player-group');
         player.group.style.cursor = 'pointer';
-        player.group.addEventListener('click', () => player.setHighlight(!player.isHighlighted));
+        player.group.addEventListener('click', () => player.setManualHighlight(!player.isManualHighlighted));
       }
       this.players[p.id] = player;
     });
@@ -61,7 +61,7 @@ class Animator {
       if (player.group) {
         player.group.classList.add('player-group');
         player.group.style.cursor = 'pointer';
-        player.group.addEventListener('click', () => player.setHighlight(!player.isHighlighted));
+        player.group.addEventListener('click', () => player.setManualHighlight(!player.isManualHighlighted));
       }
       this.players[p.id] = player;
     });
@@ -151,7 +151,7 @@ class Animator {
   }
 
   clearAllHighlights() {
-    Object.values(this.players).forEach(p => p.setHighlight(false));
+    Object.values(this.players).forEach(p => p.setManualHighlight(false));
   }
 
   nextStep() {

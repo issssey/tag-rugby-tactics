@@ -9,8 +9,10 @@ class Player {
     this.color = team === 'attack' ? '#378ADD' : '#D85A30';
     this.group = null;
     this.circle = null;
-    this.highlightRing = null;
+    this.highlightRing = null;     // アニメーション用（金色）
+    this.manualHighlightRing = null; // クリック用（シアン）
     this.isHighlighted = false;
+    this.isManualHighlighted = false;
   }
 
   render(svgElement) {
@@ -19,7 +21,18 @@ class Player {
     this.group = document.createElementNS('http://www.w3.org/2000/svg', 'g');
     this.group.setAttribute('data-player-id', this.id);
 
-    // ハイライトリング
+    // クリック用ハイライトリング（シアン・外側）
+    this.manualHighlightRing = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+    this.manualHighlightRing.setAttribute('cx', x);
+    this.manualHighlightRing.setAttribute('cy', y);
+    this.manualHighlightRing.setAttribute('r', 28);
+    this.manualHighlightRing.setAttribute('fill', 'none');
+    this.manualHighlightRing.setAttribute('stroke', '#00E5FF');
+    this.manualHighlightRing.setAttribute('stroke-width', '2.5');
+    this.manualHighlightRing.setAttribute('opacity', '0');
+    this.group.appendChild(this.manualHighlightRing);
+
+    // アニメーション用ハイライトリング（金色・内側）
     this.highlightRing = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
     this.highlightRing.setAttribute('cx', x);
     this.highlightRing.setAttribute('cy', y);
@@ -57,10 +70,19 @@ class Player {
     svgElement.appendChild(this.group);
   }
 
+  // アニメーション由来のハイライト（金色）
   setHighlight(enabled) {
     this.isHighlighted = enabled;
     if (this.highlightRing) {
       this.highlightRing.setAttribute('opacity', enabled ? '1' : '0');
+    }
+  }
+
+  // クリック由来のハイライト（シアン）
+  setManualHighlight(enabled) {
+    this.isManualHighlighted = enabled;
+    if (this.manualHighlightRing) {
+      this.manualHighlightRing.setAttribute('opacity', enabled ? '1' : '0');
     }
   }
 
@@ -73,7 +95,6 @@ class Player {
     }
   }
 
-  // グリッド座標を更新してSVG要素を移動
   setPosition(gridX, gridY) {
     this.gridX = gridX;
     this.gridY = gridY;
@@ -87,6 +108,8 @@ class Player {
     this.circle.setAttribute('cy', y);
     this.highlightRing.setAttribute('cx', x);
     this.highlightRing.setAttribute('cy', y);
+    this.manualHighlightRing.setAttribute('cx', x);
+    this.manualHighlightRing.setAttribute('cy', y);
     this._textEl.setAttribute('x', x);
     this._textEl.setAttribute('y', y);
   }
