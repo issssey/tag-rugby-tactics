@@ -23,12 +23,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     populateTacticsList();
     await loadSelectedTactics();
   } catch (e) {
-    showError(
-      'JSONファイルの読み込みに失敗しました。ローカルサーバーが必要です。<br>' +
-      'ターミナルで以下を実行してください:<br>' +
-      '<code>cd ' + window.location.pathname.replace('/index.html', '') + ' &amp;&amp; python3 -m http.server 8080</code><br>' +
-      'その後 <a href="http://localhost:8080" style="color:#7ec8e3">http://localhost:8080</a> を開いてください。'
-    );
+    showError('戦術データの読み込みに失敗しました。');
   }
 
   function populateTacticsList() {
