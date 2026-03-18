@@ -47,14 +47,22 @@ class Animator {
     [...attack].forEach(p => {
       const player = new Player(p.id, p.gridX, p.gridY, 'attack', this.grid, p.role || null);
       player.render(this.svgElement);
-      if (player.group) player.group.classList.add('player-group');
+      if (player.group) {
+        player.group.classList.add('player-group');
+        player.group.style.cursor = 'pointer';
+        player.group.addEventListener('click', () => player.setHighlight(!player.isHighlighted));
+      }
       this.players[p.id] = player;
     });
 
     [...defense].forEach(p => {
       const player = new Player(p.id, p.gridX, p.gridY, 'defense', this.grid, null);
       player.render(this.svgElement);
-      if (player.group) player.group.classList.add('player-group');
+      if (player.group) {
+        player.group.classList.add('player-group');
+        player.group.style.cursor = 'pointer';
+        player.group.addEventListener('click', () => player.setHighlight(!player.isHighlighted));
+      }
       this.players[p.id] = player;
     });
   }
