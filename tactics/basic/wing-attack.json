@@ -1,0 +1,100 @@
+{
+  "name": "ウイングアタック",
+  "category": "basic",
+  "description": "素早いパス回しでボールをウイングへ展開。サイドの広いスペースを使って前進する。",
+  "author": "サンプル",
+  "difficulty": 2,
+
+  "players": {
+    "attack": [
+      { "id": "A1", "gridX": 2, "gridY": 7, "role": "スクラムハーフ" },
+      { "id": "A2", "gridX": 4, "gridY": 7, "role": "フライハーフ" },
+      { "id": "A3", "gridX": 5, "gridY": 7, "role": "センター" },
+      { "id": "A4", "gridX": 7, "gridY": 7, "role": "ウイング" },
+      { "id": "A5", "gridX": 8, "gridY": 8, "role": "フルバック" }
+    ],
+    "defense": [
+      { "id": "D1", "gridX": 1, "gridY": 3 },
+      { "id": "D2", "gridX": 3, "gridY": 3 },
+      { "id": "D3", "gridX": 5, "gridY": 3 },
+      { "id": "D4", "gridX": 8, "gridY": 3 }
+    ]
+  },
+
+  "phases": [
+    {
+      "id": 1,
+      "description": "第1フェーズ: ウイングへの速攻展開",
+      "steps": [
+        {
+          "type": "pass",
+          "ballHolder": "A1",
+          "passAnimation": { "from": "A1", "to": "A2" },
+          "players": [
+            { "id": "A2", "from": {"x": 4, "y": 7}, "to": {"x": 4, "y": 6}, "duration": 600, "isHighlighted": true }
+          ]
+        },
+        {
+          "type": "pass",
+          "ballHolder": "A2",
+          "passAnimation": { "from": "A2", "to": "A3" },
+          "players": [
+            { "id": "A3", "from": {"x": 5, "y": 7}, "to": {"x": 5, "y": 6}, "duration": 600, "isHighlighted": true }
+          ]
+        },
+        {
+          "type": "pass",
+          "ballHolder": "A3",
+          "passAnimation": { "from": "A3", "to": "A4" },
+          "players": [
+            { "id": "A4", "from": {"x": 7, "y": 7}, "to": {"x": 7, "y": 6}, "duration": 600, "isHighlighted": true }
+          ]
+        },
+        {
+          "type": "run",
+          "ballHolder": "A4",
+          "players": [
+            { "id": "A4", "from": {"x": 7, "y": 6}, "to": {"x": 8, "y": 4}, "duration": 1000 }
+          ]
+        },
+        {
+          "type": "tag",
+          "ballHolder": "A4",
+          "players": [
+            { "id": "D4", "from": {"x": 8, "y": 3}, "to": {"x": 8, "y": 4}, "duration": 500 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "description": "第2フェーズ: フルバックのサポートランで突破",
+      "steps": [
+        {
+          "type": "rollball",
+          "ballHolder": "A4",
+          "passAnimation": { "from": "A4", "to": "A1" },
+          "players": [
+            { "id": "A4", "from": {"x": 8, "y": 4}, "to": {"x": 8, "y": 3}, "duration": 400 },
+            { "id": "A1", "from": {"x": 2, "y": 7}, "to": {"x": 8, "y": 4}, "duration": 900 }
+          ]
+        },
+        {
+          "type": "pass",
+          "ballHolder": "A1",
+          "passAnimation": { "from": "A1", "to": "A5" },
+          "players": [
+            { "id": "A5", "from": {"x": 8, "y": 8}, "to": {"x": 9, "y": 5}, "duration": 700, "isHighlighted": true }
+          ]
+        },
+        {
+          "type": "run",
+          "ballHolder": "A5",
+          "players": [
+            { "id": "A5", "from": {"x": 9, "y": 5}, "to": {"x": 9, "y": 2}, "duration": 1000 }
+          ]
+        }
+      ]
+    }
+  ]
+}

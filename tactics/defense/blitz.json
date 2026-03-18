@@ -1,0 +1,97 @@
+{
+  "name": "ブリッツディフェンス",
+  "category": "defense",
+  "description": "ディフェンス全員が一斉に猛烈に前進して攻撃の時間とスペースを奪う積極的守備。タイミングが重要で、裏を取られるリスクもある。",
+  "author": "サンプル",
+  "difficulty": 4,
+
+  "players": {
+    "attack": [
+      { "id": "A1", "gridX": 3, "gridY": 8, "role": "スクラムハーフ" },
+      { "id": "A2", "gridX": 5, "gridY": 8, "role": "フライハーフ" },
+      { "id": "A3", "gridX": 7, "gridY": 8, "role": "センター" },
+      { "id": "A4", "gridX": 9, "gridY": 8, "role": "ウイング" },
+      { "id": "A5", "gridX": 5, "gridY": 9, "role": "フルバック" }
+    ],
+    "defense": [
+      { "id": "D1", "gridX": 2, "gridY": 5 },
+      { "id": "D2", "gridX": 4, "gridY": 5 },
+      { "id": "D3", "gridX": 6, "gridY": 5 },
+      { "id": "D4", "gridX": 8, "gridY": 5 }
+    ]
+  },
+
+  "phases": [
+    {
+      "id": 1,
+      "description": "第1フェーズ: ロールボールと同時に全員ブリッツ！",
+      "steps": [
+        {
+          "type": "run",
+          "ballHolder": "A1",
+          "players": [
+            { "id": "D1", "from": {"x": 2, "y": 5}, "to": {"x": 2, "y": 7}, "duration": 700, "isHighlighted": true },
+            { "id": "D2", "from": {"x": 4, "y": 5}, "to": {"x": 4, "y": 7}, "duration": 700, "isHighlighted": true },
+            { "id": "D3", "from": {"x": 6, "y": 5}, "to": {"x": 6, "y": 7}, "duration": 700, "isHighlighted": true },
+            { "id": "D4", "from": {"x": 8, "y": 5}, "to": {"x": 8, "y": 7}, "duration": 700, "isHighlighted": true }
+          ]
+        },
+        {
+          "type": "tag",
+          "ballHolder": "A1",
+          "players": [
+            { "id": "D2", "from": {"x": 4, "y": 7}, "to": {"x": 3, "y": 8}, "duration": 400 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "description": "第2フェーズ: A1がパスを出せずに詰まるが、A5がサポート",
+      "steps": [
+        {
+          "type": "rollball",
+          "ballHolder": "A1",
+          "passAnimation": { "from": "A1", "to": "A5" },
+          "players": [
+            { "id": "A1", "from": {"x": 3, "y": 8}, "to": {"x": 3, "y": 7}, "duration": 400 },
+            { "id": "A5", "from": {"x": 5, "y": 9}, "to": {"x": 3, "y": 8}, "duration": 800 }
+          ]
+        },
+        {
+          "type": "run",
+          "ballHolder": "A5",
+          "players": [
+            { "id": "A5", "from": {"x": 3, "y": 8}, "to": {"x": 5, "y": 7}, "duration": 700 },
+            { "id": "D1", "from": {"x": 2, "y": 7}, "to": {"x": 3, "y": 7}, "duration": 600, "isHighlighted": true },
+            { "id": "D2", "from": {"x": 3, "y": 8}, "to": {"x": 4, "y": 7}, "duration": 600, "isHighlighted": true },
+            { "id": "D3", "from": {"x": 6, "y": 7}, "to": {"x": 5, "y": 7}, "duration": 600, "isHighlighted": true }
+          ]
+        },
+        {
+          "type": "pass",
+          "ballHolder": "A5",
+          "passAnimation": { "from": "A5", "to": "A3" },
+          "players": [
+            { "id": "A3", "from": {"x": 7, "y": 8}, "to": {"x": 7, "y": 6}, "duration": 700, "isHighlighted": true }
+          ]
+        },
+        {
+          "type": "run",
+          "ballHolder": "A3",
+          "players": [
+            { "id": "A3", "from": {"x": 7, "y": 6}, "to": {"x": 8, "y": 4}, "duration": 900 },
+            { "id": "D4", "from": {"x": 8, "y": 7}, "to": {"x": 8, "y": 5}, "duration": 800, "isHighlighted": true }
+          ]
+        },
+        {
+          "type": "tag",
+          "ballHolder": "A3",
+          "players": [
+            { "id": "D4", "from": {"x": 8, "y": 5}, "to": {"x": 8, "y": 4}, "duration": 400 }
+          ]
+        }
+      ]
+    }
+  ]
+}

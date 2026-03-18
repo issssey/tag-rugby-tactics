@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>タグラグビー戦術アニメーション</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <h1>タグラグビー戦術アニメーション</h1>
+
+  <div class="app-container">
+
+    <!-- 戦術セレクター -->
+    <div class="tactics-selector">
+      <div class="selector-row">
+        <label for="select-category">カテゴリ:</label>
+        <select id="select-category">
+          <option value="all">すべて</option>
+          <option value="basic">基本</option>
+          <option value="advanced">応用</option>
+          <option value="defense">ディフェンス</option>
+        </select>
+        <label for="select-tactics">戦術:</label>
+        <select id="select-tactics">
+          <option value="">読み込み中...</option>
+        </select>
+        <button id="btn-load">読み込み</button>
+      </div>
+      <div id="load-error" class="load-error" style="display:none;"></div>
+    </div>
+
+    <!-- 戦術情報 -->
+    <div class="tactics-info">
+      <h2 id="tactics-name">戦術を選択してください</h2>
+      <p id="tactics-description"></p>
+      <div class="tactics-meta">
+        <span>難易度: <span id="tactics-difficulty"></span></span>
+        <span>作成者: <span id="tactics-author"></span></span>
+      </div>
+    </div>
+
+    <!-- コントロール -->
+    <div class="controls">
+      <div class="controls-row">
+        <label for="select-speed">速度:</label>
+        <select id="select-speed">
+          <option value="0.5">0.5x</option>
+          <option value="1" selected>1x</option>
+          <option value="2">2x</option>
+        </select>
+        <button id="btn-prev-phase">◀◀ 前フェーズ</button>
+        <button id="btn-prev-step">◀ 前ステップ</button>
+      </div>
+      <div class="controls-row">
+        <button id="btn-play">▶ 再生</button>
+        <button id="btn-next-step">次ステップ ▶</button>
+        <button id="btn-next-phase">次フェーズ ▶▶</button>
+        <button id="btn-reset">リセット</button>
+      </div>
+      <div class="status-bar">
+        <span id="status-phase">フェーズ: — / —</span>
+        <span id="status-step">ステップ: — / —</span>
+      </div>
+      <div class="status-description" id="status-description"></div>
+    </div>
+
+    <!-- フィールド -->
+    <div class="field-container">
+      <svg id="field" width="600" height="600" viewBox="0 0 600 600"></svg>
+    </div>
+
+    <!-- 凡例 -->
+    <div class="legend">
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#378ADD;"></div>
+        <span>攻撃側</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#D85A30;"></div>
+        <span>ディフェンス</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:#8B4513; border-radius: 50% / 60%;"></div>
+        <span>ボール</span>
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:transparent; border-color:#FFD700;"></div>
+        <span>ハイライト</span>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="js/grid.js"></script>
+  <script src="js/player.js"></script>
+  <script src="js/ball.js"></script>
+  <script src="js/animator.js"></script>
+  <script src="js/controls.js"></script>
+  <script src="js/tacticsLoader.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

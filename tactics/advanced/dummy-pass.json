@@ -1,0 +1,101 @@
+{
+  "name": "ダミーパス",
+  "category": "advanced",
+  "description": "パスするふりでディフェンスを止め、自分で走り抜けるプレー。A2がダミーレシーバーとなりD2を引き付け、A1がギャップを突く。",
+  "author": "サンプル",
+  "difficulty": 3,
+
+  "players": {
+    "attack": [
+      { "id": "A1", "gridX": 4, "gridY": 7, "role": "スクラムハーフ" },
+      { "id": "A2", "gridX": 6, "gridY": 7, "role": "フライハーフ（ダミー）" },
+      { "id": "A3", "gridX": 7, "gridY": 7, "role": "センター" },
+      { "id": "A4", "gridX": 8, "gridY": 7, "role": "ウイング" },
+      { "id": "A5", "gridX": 2, "gridY": 8, "role": "フルバック" }
+    ],
+    "defense": [
+      { "id": "D1", "gridX": 2, "gridY": 3 },
+      { "id": "D2", "gridX": 4, "gridY": 3 },
+      { "id": "D3", "gridX": 6, "gridY": 3 },
+      { "id": "D4", "gridX": 8, "gridY": 3 }
+    ]
+  },
+
+  "phases": [
+    {
+      "id": 1,
+      "description": "第1フェーズ: ダミーでD2を引き付けてA1が突破",
+      "steps": [
+        {
+          "type": "run",
+          "ballHolder": "A1",
+          "players": [
+            { "id": "A1", "from": {"x": 4, "y": 7}, "to": {"x": 5, "y": 5}, "duration": 900 },
+            { "id": "A2", "from": {"x": 6, "y": 7}, "to": {"x": 5, "y": 6}, "duration": 700, "isHighlighted": true },
+            { "id": "D2", "from": {"x": 4, "y": 3}, "to": {"x": 5, "y": 4}, "duration": 700 }
+          ]
+        },
+        {
+          "type": "run",
+          "ballHolder": "A1",
+          "players": [
+            { "id": "A1", "from": {"x": 5, "y": 5}, "to": {"x": 4, "y": 3}, "duration": 1000 },
+            { "id": "D2", "from": {"x": 5, "y": 4}, "to": {"x": 6, "y": 4}, "duration": 700 }
+          ]
+        },
+        {
+          "type": "tag",
+          "ballHolder": "A1",
+          "players": [
+            { "id": "D1", "from": {"x": 2, "y": 3}, "to": {"x": 4, "y": 3}, "duration": 600 }
+          ]
+        },
+        {
+          "type": "rollball",
+          "ballHolder": "A1",
+          "passAnimation": { "from": "A1", "to": "A5" },
+          "players": [
+            { "id": "A1", "from": {"x": 4, "y": 3}, "to": {"x": 4, "y": 2}, "duration": 400 },
+            { "id": "A5", "from": {"x": 2, "y": 8}, "to": {"x": 4, "y": 3}, "duration": 900 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "description": "第2フェーズ: D2が外れたスペースへ展開",
+      "steps": [
+        {
+          "type": "pass",
+          "ballHolder": "A5",
+          "passAnimation": { "from": "A5", "to": "A3" },
+          "players": [
+            { "id": "A3", "from": {"x": 7, "y": 7}, "to": {"x": 6, "y": 4}, "duration": 700, "isHighlighted": true }
+          ]
+        },
+        {
+          "type": "run",
+          "ballHolder": "A3",
+          "players": [
+            { "id": "A3", "from": {"x": 6, "y": 4}, "to": {"x": 5, "y": 2}, "duration": 1000 }
+          ]
+        },
+        {
+          "type": "pass",
+          "ballHolder": "A3",
+          "passAnimation": { "from": "A3", "to": "A4" },
+          "players": [
+            { "id": "A4", "from": {"x": 8, "y": 7}, "to": {"x": 7, "y": 3}, "duration": 800, "isHighlighted": true }
+          ]
+        },
+        {
+          "type": "run",
+          "ballHolder": "A4",
+          "players": [
+            { "id": "A4", "from": {"x": 7, "y": 3}, "to": {"x": 8, "y": 1}, "duration": 900 }
+          ]
+        }
+      ]
+    }
+  ]
+}
