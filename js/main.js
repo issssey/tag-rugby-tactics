@@ -9,13 +9,17 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   controls.init();
 
-  // カテゴリ変更時に戦術リストを更新
-  document.getElementById('select-category').addEventListener('change', () => {
+  let populatingList = false;
+
+  // カテゴリ変更時に戦術リストを更新して先頭を自動読み込み
+  document.getElementById('select-category').addEventListener('change', async () => {
     populateTacticsList();
+    await loadSelectedTactics();
   });
 
-  // 読み込みボタン
-  document.getElementById('btn-load').addEventListener('click', async () => {
+  // 戦術選択変更時に自動読み込み（リスト構築中は無視）
+  document.getElementById('select-tactics').addEventListener('change', async () => {
+    if (populatingList) return;
     await loadSelectedTactics();
   });
 
@@ -35,6 +39,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   function populateTacticsList() {
+    populatingList = true;
     const category = document.getElementById('select-category').value;
     const tactics = loader.getTacticsByCategory(category);
     const select = document.getElementById('select-tactics');
@@ -46,6 +51,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       opt.textContent = `${t.name}  ${'★'.repeat(t.difficulty)}${'☆'.repeat(5 - t.difficulty)}`;
       select.appendChild(opt);
     });
+    populatingList = false;
   }
 
   async function loadSelectedTactics() {
@@ -53,18 +59,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (!path) return;
 
     hideError();
-    document.getElementById('btn-load').disabled = true;
-    document.getElementById('btn-load').textContent = '読み込み中...';
-
     try {
       const data = await loader.loadTactics(path);
       animator.loadTactics(data);
       updateTacticsInfo(data);
     } catch (e) {
       showError('戦術の読み込みに失敗しました: ' + e.message);
-    } finally {
-      document.getElementById('btn-load').disabled = false;
-      document.getElementById('btn-load').textContent = '読み込み';
     }
   }
 
