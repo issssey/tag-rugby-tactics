@@ -1,0 +1,189 @@
+{
+  "name": "マイフェーズ右に展開",
+  "description": "",
+  "author": "",
+  "players": {
+    "attack": [
+      { "id": "A1", "gridX": 5, "gridY": 5 },
+      { "id": "A2", "gridX": 5, "gridY": 6 },
+      { "id": "A3", "gridX": 4, "gridY": 7 },
+      { "id": "A4", "gridX": 6, "gridY": 7 },
+      { "id": "A5", "gridX": 5, "gridY": 8 }
+    ],
+    "defense": [
+      { "id": "D1", "gridX": 1, "gridY": 3 },
+      { "id": "D2", "gridX": 3, "gridY": 3 },
+      { "id": "D3", "gridX": 5, "gridY": 3 },
+      { "id": "D4", "gridX": 7, "gridY": 3 },
+      { "id": "D5", "gridX": 9, "gridY": 3 }
+    ]
+  },
+
+  "phases": [
+    {
+      "id": 1,
+      "description": "",
+      "steps": [
+        {
+          "type": "run",
+          "ballHolder": "A1",
+          "players": []
+        },
+        {
+          "type": "pass",
+          "ballHolder": "A1",
+          "passAnimation": { "from": "A1", "to": "A2" },
+          "players": [
+            { "id": "A2", "from": {"x": 5, "y": 6}, "to": {"x": 5, "y": 6}, "duration": 300, "isHighlighted": true }
+          ]
+        },
+        {
+          "type": "run",
+          "ballHolder": "A2",
+          "players": [
+            { "id": "A2", "from": {"x": 5, "y": 6}, "to": {"x": 6, "y": 4}, "duration": 600 },
+            { "id": "A3", "from": {"x": 4, "y": 7}, "to": {"x": 4, "y": 6}, "duration": 600 },
+            { "id": "A4", "from": {"x": 6, "y": 7}, "to": {"x": 7, "y": 5}, "duration": 600 },
+            { "id": "A5", "from": {"x": 5, "y": 8}, "to": {"x": 6, "y": 6}, "duration": 600 },
+            { "id": "D1", "from": {"x": 1, "y": 3}, "to": {"x": 1, "y": 4}, "duration": 600 },
+            { "id": "D2", "from": {"x": 3, "y": 3}, "to": {"x": 3, "y": 4}, "duration": 600 },
+            { "id": "D3", "from": {"x": 5, "y": 3}, "to": {"x": 5, "y": 4}, "duration": 600 },
+            { "id": "D4", "from": {"x": 7, "y": 3}, "to": {"x": 7, "y": 4}, "duration": 600 },
+            { "id": "D5", "from": {"x": 9, "y": 3}, "to": {"x": 9, "y": 4}, "duration": 600 }
+          ]
+        },
+        {
+          "type": "tag",
+          "ballHolder": "A2",
+          "players": [
+            { "id": "D4", "from": {"x": 7, "y": 4}, "to": {"x": 6, "y": 4}, "duration": 500 }
+          ]
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "description": "",
+      "steps": [
+        {
+          "type": "pass",
+          "ballHolder": "A2",
+          "passAnimation": { "from": "A2", "to": "A4" },
+          "players": [
+            { "id": "A4", "from": {"x": 7, "y": 5}, "to": {"x": 7, "y": 5}, "duration": 300, "isHighlighted": true }
+          ]
+        },
+        {
+          "type": "run",
+          "ballHolder": "A4",
+          "players": [
+            { "id": "A1", "from": {"x": 5, "y": 5}, "to": {"x": 7, "y": 5}, "duration": 600 },
+            { "id": "A2", "from": {"x": 6, "y": 4}, "to": {"x": 4, "y": 6}, "duration": 600 },
+            { "id": "A3", "from": {"x": 4, "y": 6}, "to": {"x": 8, "y": 6}, "duration": 600 },
+            { "id": "A4", "from": {"x": 7, "y": 5}, "to": {"x": 8, "y": 4}, "duration": 600 },
+            { "id": "A5", "from": {"x": 6, "y": 6}, "to": {"x": 9, "y": 5}, "duration": 600 },
+            { "id": "D1", "from": {"x": 1, "y": 4}, "to": {"x": 3, "y": 4}, "duration": 600 },
+            { "id": "D2", "from": {"x": 3, "y": 4}, "to": {"x": 5, "y": 4}, "duration": 600 },
+            { "id": "D3", "from": {"x": 5, "y": 4}, "to": {"x": 7, "y": 4}, "duration": 600 }
+          ]
+        },
+        {
+          "type": "tag",
+          "ballHolder": "A4",
+          "players": [
+            { "id": "D3", "from": {"x": 7, "y": 4}, "to": {"x": 8, "y": 4}, "duration": 500 }
+          ]
+        }
+      ]
+    }
+  ,
+    {
+      "id": 3,
+      "description": "",
+      "steps": [
+        {
+          "type": "pass",
+          "ballHolder": "A5",
+          "passAnimation": { "from": "A4", "to": "A5" },
+          "players": [
+            { "id": "A5", "from": {"x": 9, "y": 5}, "to": {"x": 9, "y": 5}, "duration": 300, "isHighlighted": true }
+          ]
+        },
+        {
+          "type": "run",
+          "ballHolder": "A5",
+          "players": [
+            { "id": "A1", "from": {"x": 7, "y": 5}, "to": {"x": 5, "y": 6}, "duration": 600 },
+            { "id": "A2", "from": {"x": 4, "y": 6}, "to": {"x": 3, "y": 7}, "duration": 600 },
+            { "id": "A3", "from": {"x": 8, "y": 6}, "to": {"x": 9, "y": 5}, "duration": 600 },
+            { "id": "A5", "from": {"x": 9, "y": 5}, "to": {"x": 10, "y": 4}, "duration": 600 },
+            { "id": "D2", "from": {"x": 5, "y": 4}, "to": {"x": 6, "y": 4}, "duration": 600 },
+            { "id": "D4", "from": {"x": 6, "y": 4}, "to": {"x": 7, "y": 4}, "duration": 600 }
+          ]
+        },
+        {
+          "type": "tag",
+          "ballHolder": "A5",
+          "players": [
+            { "id": "D5", "from": {"x": 9, "y": 4}, "to": {"x": 10, "y": 4}, "duration": 500 },
+            { "id": "A4", "from": {"x": 8, "y": 4}, "to": {"x": 8, "y": 5}, "duration": 500 }
+          ]
+        }
+      ]
+    }
+  ,
+    {
+      "id": 4,
+      "description": "",
+      "steps": [
+        {
+          "type": "pass",
+          "ballHolder": "A5",
+          "passAnimation": { "from": "A5", "to": "A3" },
+          "players": [
+            { "id": "A3", "from": {"x": 9, "y": 5}, "to": {"x": 9, "y": 5}, "duration": 300, "isHighlighted": true }
+          ]
+        },
+        {
+          "type": "pass",
+          "ballHolder": "A3",
+          "passAnimation": { "from": "A3", "to": "A1" },
+          "players": [
+            { "id": "A1", "from": {"x": 5, "y": 6}, "to": {"x": 5, "y": 6}, "duration": 300, "isHighlighted": true }
+          ]
+        }
+      ]
+    }
+  ,
+    {
+      "id": 5,
+      "description": "",
+      "steps": [
+        {
+          "type": "run",
+          "ballHolder": "A1",
+          "players": [
+            { "id": "A1", "from": {"x": 5, "y": 6}, "to": {"x": 4, "y": 5}, "duration": 600 },
+            { "id": "A2", "from": {"x": 3, "y": 7}, "to": {"x": 2, "y": 5}, "duration": 600 },
+            { "id": "D1", "from": {"x": 3, "y": 4}, "to": {"x": 4, "y": 4}, "duration": 600 }
+          ]
+        },
+        {
+          "type": "pass",
+          "ballHolder": "A1",
+          "passAnimation": { "from": "A1", "to": "A2" },
+          "players": [
+            { "id": "A2", "from": {"x": 2, "y": 5}, "to": {"x": 2, "y": 5}, "duration": 300, "isHighlighted": true }
+          ]
+        },
+        {
+          "type": "run",
+          "ballHolder": "A2",
+          "players": [
+            { "id": "A2", "from": {"x": 2, "y": 5}, "to": {"x": 2, "y": 0}, "duration": 800 }
+          ]
+        }
+      ]
+    }
+  ]
+}
